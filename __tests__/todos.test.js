@@ -71,6 +71,20 @@ describe('users', () => {
     });
   });
 
+  it('PUT /api/v1/todos/:id updates a todo if associated with authenticated user', async () => {
+    const [agent, user] = await registerAndLogin();
+    const todo = await ToDo.insert({
+      task: 'apples',
+      completed: false,
+      user_id: user.id,
+    });
+    const resp = await agent
+      .put(`/api/v1/todos/${todo.id}`)
+      .send({ completed: true });
+    expect(resp.status).toBe(200);
+    expect(resp.body).toEqual({ ...todo, completed: true });
+  });
+
   afterAll(() => {
     pool.end();
   });
