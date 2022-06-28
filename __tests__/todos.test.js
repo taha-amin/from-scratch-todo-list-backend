@@ -41,14 +41,18 @@ describe('users', () => {
     const [agent, user] = await registerAndLogin();
     const user2 = await UserService.create(mockUser2);
     const user1Todo = await ToDo.insert({
+      id: '1',
       task: 'go to gym',
+      completed: 'true',
       user_id: user.id,
     });
     await ToDo.insert({
+      id: '2',
       task: 'finish hw',
+      completed: 'true',
       user_id: user2.id,
     });
-    const resp = await agent.get('/api/v1/items');
+    const resp = await agent.get('/api/v1/todos');
     expect(resp.status).toEqual(200);
     expect(resp.body).toEqual([user1Todo]);
   });
