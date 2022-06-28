@@ -57,6 +57,20 @@ describe('users', () => {
     expect(resp.body).toEqual([user1Todo]);
   });
 
+  it('POST /api/v1/todos/ creates a new todo for the authenticated user', async () => {
+    const [agent, user] = await registerAndLogin();
+    const resp = await agent
+      .post('/api/v1/todos')
+      .send({ task: 'finish assignment', completed: 'true' });
+    expect(resp.status).toBe(200);
+    expect(resp.body).toEqual({
+      id: expect.any(String),
+      user_id: user.id,
+      task: 'finish assignment',
+      completed: 'true',
+    });
+  });
+
   afterAll(() => {
     pool.end();
   });
