@@ -61,13 +61,13 @@ describe('users', () => {
     const [agent, user] = await registerAndLogin();
     const resp = await agent
       .post('/api/v1/todos')
-      .send({ task: 'finish assignment', completed: 'true' });
+      .send({ task: 'finish assignment', completed: true });
     expect(resp.status).toBe(200);
     expect(resp.body).toEqual({
       id: expect.any(String),
       user_id: user.id,
       task: 'finish assignment',
-      completed: 'true',
+      completed: true,
     });
   });
 
