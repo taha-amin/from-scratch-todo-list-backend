@@ -40,6 +40,13 @@ describe('backend-express-template routes', () => {
     });
   });
 
+  it('POST /api/v1/users/sessions signs in a new user and creates a cookie', async () => {
+    const res = await request(app)
+      .post('/api/v1/users/sessions')
+      .send(mockUser);
+    expect(res.status).toBe(200);
+  });
+
   afterAll(() => {
     pool.end();
   });
