@@ -41,10 +41,13 @@ describe('backend-express-template routes', () => {
   });
 
   it('POST /api/v1/users/sessions signs in a new user and creates a cookie', async () => {
+    await UserService.create(mockUser);
+    const { email, password } = mockUser;
     const res = await request(app)
       .post('/api/v1/users/sessions')
-      .send(mockUser);
+      .send({ email, password });
     expect(res.status).toBe(200);
+    expect(res.body).toEqual({ message: 'Signed in successfully!' });
   });
 
   afterAll(() => {
