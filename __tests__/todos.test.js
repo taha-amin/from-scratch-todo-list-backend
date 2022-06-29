@@ -80,14 +80,14 @@ describe('users', () => {
     const resp = await agent
       .put(`/api/v1/todos/${todo.id}`)
       .send({ completed: true });
-    // expect(resp.status).toEqual(200);
+    expect(resp.status).toEqual(200);
     expect(resp.body).toEqual({ ...todo, completed: true });
   });
 
   it('DELETE /api/v1/todos/:id deletes a todo if associated with authenticated user', async () => {
     const [agent, user] = await registerAndLogin();
     const todo = await ToDo.insert({
-      task: 'write journal',
+      task: 'clean desk',
       user_id: user.id,
       completed: true,
     });
