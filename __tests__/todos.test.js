@@ -84,6 +84,20 @@ describe('users', () => {
     expect(resp.body).toEqual({ ...todo, completed: true });
   });
 
+  it('DELETE /api/v1/todos/:id deletes a todo if associated with authenticated user', async () => {
+    const [agent, user] = await registerAndLogin();
+    const todo = await ToDo.insert({
+      task: 'write journal',
+      user_id: user.id,
+      completed: true,
+    });
+    const resp = await agent.delete(`api/v1/todos/${todo.id}`);
+    expect(resp.status).toBe(200);
+
+    const check = await ToDo.getById(todo.id);
+    expect(check).toBeNull();
+  });
+
   afterAll(() => {
     pool.end();
   });
