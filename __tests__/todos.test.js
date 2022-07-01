@@ -51,7 +51,7 @@ describe('users', () => {
       completed: 'true',
       user_id: user2.id,
     });
-    const resp = await agent.get('/api/v1/todos');
+    const resp = await agent.get('/api/v1/todos/');
     expect(resp.status).toEqual(200);
     expect(resp.body).toEqual([user1Todo]);
   });
@@ -59,7 +59,7 @@ describe('users', () => {
   it('POST /api/v1/todos/ creates a new todo for the authenticated user', async () => {
     const [agent, user] = await registerAndLogin();
     const resp = await agent
-      .post('/api/v1/todos')
+      .post('/api/v1/todos/')
       .send({ task: 'finish assignment', completed: true });
     expect(resp.status).toBe(200);
     expect(resp.body).toEqual({
@@ -86,7 +86,7 @@ describe('users', () => {
 
   it('DELETE /api/v1/todos/:id deletes a todo item', async () => {
     const [agent, user] = await registerAndLogin();
-    await agent.post('/api/v1/todos').send({
+    await agent.post('/api/v1/todos/').send({
       task: 'finish assignment',
       user_id: user.id,
       completed: true,
